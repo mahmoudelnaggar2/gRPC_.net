@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option csharp_namespace = "GRPCCustomers";
+
+import "google/protobuf/timestamp.proto";
+
+service CustomerService {
+  rpc AddCustomers (CustomersPacket) returns (StatusMessage);
+
+  rpc AddCustomersStream (stream AddCustomerMessage) returns (stream StatusMessage);
+}
+
+message CustomersPacket {
+  repeated AddCustomerMessage Customers = 1;  
+}
+
+message AddCustomerMessage {
+  string Name = 1;
+  string CompanyName = 2;
+  string PhoneNumber = 3; 
+  reserved 4;  
+}
+
+message StatusMessage {
+  ServiceStatus Status = 1;
+  string Notes = 2;
+}
+
+enum ServiceStatus {
+  Unknown = 0;
+  Success = 1;
+  Failure = 2;
+}
